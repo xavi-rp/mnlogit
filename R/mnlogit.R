@@ -155,7 +155,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
         cat("Frequencies of alternatives in input data:\n")
         print(prop.table(freq.choices), digits = 4)
         #xavi: stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-7."))
-        stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
+        #xavi: stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
+        print(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
     }
 
     # Form design matrices 
