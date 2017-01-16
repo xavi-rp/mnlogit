@@ -147,6 +147,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     }
     respVec <- respVec - min.respVec
     freq.choices <- colSums(matrix(respVec, nrow = N, ncol = K))/N
+    print(freq.choices)
+    stop("para un segon")
     loFreq <- min(freq.choices)
     loChoice <- choice.set[which(loFreq == freq.choices)]
     names(freq.choices) <- choice.set
