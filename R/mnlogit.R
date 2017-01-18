@@ -102,54 +102,39 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
 
     # Work with only the columns appearing in formula
     #xavi: data <- data[c(varNames, choiceVar)] 
-    print("data 1:    ")
-    print(head(data))
-    print("str(data):   ")
-    print(str(data))
     data <- data[, c(varNames, choiceVar), with = FALSE] #xavi: to work with data.table
-    print("data 2:    ")
-    print(head(data))
-    print(nrow(data))
-    print("8")
-    
+   
     # Handle NA; Find out row numbers with atleast one NA
     na.rows <- c()
     for (col in 1:ncol(data))
         na.rows <- union(na.rows, which(is.na(data[[col]])))
-    print("81")
-    
+
     Ndropped <- 0
     if (length(na.rows) > 0) {
         if (!na.rm)
             stop("NA present in input data.frame with na.rm = FALSE.")
-      print("82")
-      
+
         # Mark rows with NA for deletion
         keepRows <- rep(TRUE, nrow(data))
-        print("83")
-        
+
         keepRows[na.rows] <- FALSE 
-        print("84")
-        
+
         # Starting with 1st, mark rows for deletion in groups of K
         for (i in 1:N) {
             if (!all(keepRows[((i-1)*K + 1):(i*K)]))
                 keepRows[((i-1)*K + 1):(i*K)] <- FALSE
         }
-        print("9")
-        
+
         data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
         # Drop weights corresponding to dropped rows 
-        print("10")
-        
+
         if (!is.null(weights)) {
             weights <- weights[keepRows[seq(1, N * K, K)]]
         }
         N <- nrow(data)/K
         Ndropped <- (length(keepRows) - sum(keepRows))/K
     }
-    print("11")
-    
+
     if (print.level && Ndropped > 0) 
       cat(paste("Num of dropped observations (due to NA)  =", Ndropped, "\n"))
       
@@ -158,8 +143,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     #xavi: data <- data[order(data[[choiceVar]]), ]
     data <- data[order(data[[choiceVar]]), ]
     choice.set <- unique(data[[choiceVar]])
-    print("12")
-    
+
     # Obtain response vector as a vector of 0,1
     respVec <- data[[attr(formula, "response")]]
     if (is.factor(respVec)) respVec <- droplevels(respVec)
