@@ -125,15 +125,23 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
                 keepRows[((i-1)*K + 1):(i*K)] <- FALSE
         }
 
-        print("nrow(data): 1  ")
-        print(nrow(data))
         print("unique: 1")
         print(unique(data$LCagg_model))
+        print("data[data$LCagg_model == "OFRU" & data$rsp == 1,]: 1  ")
+        print(data[data$LCagg_model == "OFRU" & data$rsp == 1,])
+        print("data[data$LCagg_model == "OFRU" & data$rsp == 0,]: 1  ")
+        print(data[data$LCagg_model == "OFRU" & data$rsp == 0,])
+        print("nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]):   1  ")
+        print(nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]))
         data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
-        print("nrow(data): 2  ")
-        print(nrow(data))
         print("unique: 2")
         print(unique(data$LCagg_model))
+        print("data[data$LCagg_model == "OFRU" & data$rsp == 1,]: 2  ")
+        print(data[data$LCagg_model == "OFRU" & data$rsp == 1,])
+        print("data[data$LCagg_model == "OFRU" & data$rsp == 0,]: 2  ")
+        print(data[data$LCagg_model == "OFRU" & data$rsp == 0,])
+        print("nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]):   2  ")
+        print(nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]))
         
         # Drop weights corresponding to dropped rows 
 
@@ -150,11 +158,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     # Rearrange the input data.frame object
     # Sort according to choices: data for an atlernative should be contiguous
     #xavi: data <- data[order(data[[choiceVar]]), ]
-    print(head(data), 30)
-    
     data <- data[order(data[[choiceVar]]), ]
-    print(head(data), 30)
-    stop(" grrrrrrrrrr ")
     choice.set <- unique(data[[choiceVar]])
 
     # Obtain response vector as a vector of 0,1
