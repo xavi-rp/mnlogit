@@ -103,6 +103,12 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     # Work with only the columns appearing in formula
     #xavi: data <- data[c(varNames, choiceVar)]  
     data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
+    print("varNames")
+    print(varNames)
+    print("choiceVar")
+    print(choiceVar)
+    print(head(data))
+    print(nrow(data))
     print("8")
     
     # Handle NA; Find out row numbers with atleast one NA
