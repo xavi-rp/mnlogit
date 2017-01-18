@@ -102,7 +102,7 @@ print.mnlogit <- function(x, digits = max(3, getOption("digits") - 2),
 vcov.mnlogit <- function(object, ...)
 {
     #xavi: result <- solve(object$hessian, tol = 1e-25)
-    result <- solve(object$hessian, tol = 1e-200)
+    result <- solve(object$hessian, tol = 1e-300)
     return(result)
 }
 
