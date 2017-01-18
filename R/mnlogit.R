@@ -124,25 +124,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
             if (!all(keepRows[((i-1)*K + 1):(i*K)]))
                 keepRows[((i-1)*K + 1):(i*K)] <- FALSE
         }
+        data <- data[keepRows, , drop=FALSE]  
 
-        print("unique: 1")
-        print(unique(data$LCagg_model))
-        print("data[data$LCagg_model == OFRU & data$rsp == 1,]: 1  ")
-        print(data[data$LCagg_model == "OFRU" & data$rsp == 1,])
-        print("data[data$LCagg_model == OFRU & data$rsp == 0,]: 1  ")
-        print(data[data$LCagg_model == "OFRU" & data$rsp == 0,])
-        print("nrow(data[data$LCagg_model == OFRU & data$rsp == 0,]):   1  ")
-        print(nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]))
-        data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
-        print("unique: 2")
-        print(unique(data$LCagg_model))
-        print("data[data$LCagg_model == OFRU & data$rsp == 1,]: 2  ")
-        print(data[data$LCagg_model == "OFRU" & data$rsp == 1,])
-        print("data[data$LCagg_model == OFRU & data$rsp == 0,]: 2  ")
-        print(data[data$LCagg_model == "OFRU" & data$rsp == 0,])
-        print("nrow(data[data$LCagg_model == OFRU & data$rsp == 0,]):   2  ")
-        print(nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]))
-        
         # Drop weights corresponding to dropped rows 
 
         if (!is.null(weights)) {
@@ -176,13 +159,10 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     loFreq <- min(freq.choices)
     loChoice <- choice.set[which(loFreq == freq.choices)]
     names(freq.choices) <- choice.set
-    #xavi: if (loFreq < 1e-7) {
-    if (loFreq < 1e-14) {
+    if (loFreq < 1e-7) {
         cat("Frequencies of alternatives in input data:\n")
         print(prop.table(freq.choices), digits = 4)
-        #xavi: stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-7."))
-        #xavi: stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
-        print(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
+        stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-7."))
     }
 
     # Form design matrices 
