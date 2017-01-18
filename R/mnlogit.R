@@ -125,7 +125,16 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
                 keepRows[((i-1)*K + 1):(i*K)] <- FALSE
         }
 
+        print("nrow(data): 1  ")
+        print(nrow(data))
+        print("unique: 1")
+        print(unique(data$LCagg_model))
         data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
+        print("nrow(data): 2  ")
+        print(nrow(data))
+        print("unique: 2")
+        print(unique(data$LCagg_model))
+        
         # Drop weights corresponding to dropped rows 
 
         if (!is.null(weights)) {
