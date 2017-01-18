@@ -82,7 +82,9 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
         keepRows <- data[[choiceVar]] %in% alt.subset
         if (sum(keepRows) <= 0)
             stop("Error! No altrnative in 'alt.subset' is in data.")
-        data <- data[keepRows, , drop=FALSE]  
+        data <- data[keepRows, , drop=FALSE] 
+        print("nrow(data): ")
+        print(nrow(data))
     }
 
     # Determine relevant parameters
@@ -104,10 +106,12 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     #xavi: data <- data[c(varNames, choiceVar)] 
     print("data 1:    ")
     print(head(data))
-    data1 <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
+    print("str(data):   ")
+    print(str(data))
+    data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
     print("data 2:    ")
-    print(head(data1))
-    print(nrow(data1))
+    print(head(data))
+    print(nrow(data))
     print("8")
     
     # Handle NA; Find out row numbers with atleast one NA
