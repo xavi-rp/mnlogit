@@ -83,8 +83,6 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
         if (sum(keepRows) <= 0)
             stop("Error! No altrnative in 'alt.subset' is in data.")
         data <- data[keepRows, , drop=FALSE] 
-        print("nrow(data): ")
-        print(nrow(data))
     }
 
     # Determine relevant parameters
@@ -108,7 +106,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     print(head(data))
     print("str(data):   ")
     print(str(data))
-    data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
+    data <- data[, c(varNames, choiceVar), with = FALSE] #xavi: to work with data.table
     print("data 2:    ")
     print(head(data))
     print(nrow(data))
