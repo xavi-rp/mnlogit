@@ -150,7 +150,11 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     # Rearrange the input data.frame object
     # Sort according to choices: data for an atlernative should be contiguous
     #xavi: data <- data[order(data[[choiceVar]]), ]
+    print(head(data), 30)
+    
     data <- data[order(data[[choiceVar]]), ]
+    print(head(data), 30)
+    stop(" grrrrrrrrrr ")
     choice.set <- unique(data[[choiceVar]])
 
     # Obtain response vector as a vector of 0,1
