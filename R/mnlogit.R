@@ -61,7 +61,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     }
 
     # Extract various types of variables from formula
-    formula <- parseFormula(formula) 
+    formula <- parseFormula(formula)
     response <- attr(formula, "response")     # response variable
     interceptOn <- attr(formula, "Intercept") # check if intercept is in model
     csvChVar <- attr(formula, "csvChCoeff") 
@@ -101,7 +101,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     if (!is.null(weights)) weights <- weights * N / sum(weights)    
 
     # Work with only the columns appearing in formula
-    data <- data[c(varNames, choiceVar)]
+    #xavi: data <- data[c(varNames, choiceVar)]  
+    data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
 
     # Handle NA; Find out row numbers with atleast one NA
     na.rows <- c()
@@ -119,7 +120,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
             if (!all(keepRows[((i-1)*K + 1):(i*K)]))
                 keepRows[((i-1)*K + 1):(i*K)] <- FALSE
         }
-        data <- data[keepRows, , drop=FALSE]
+        data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
         # Drop weights corresponding to dropped rows 
         if (!is.null(weights)) {
             weights <- weights[keepRows[seq(1, N * K, K)]]
@@ -132,6 +133,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
       
     # Rearrange the input data.frame object
     # Sort according to choices: data for an atlernative should be contiguous
+    #xavi: data <- data[order(data[[choiceVar]]), ]
     data <- data[order(data[[choiceVar]]), ]
     choice.set <- unique(data[[choiceVar]])
 
@@ -153,8 +155,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     #xavi: if (loFreq < 1e-7) {
     if (loFreq < 1e-14) {
         cat("Frequencies of alternatives in input data:\n")
-        #xavi: print(prop.table(freq.choices), digits = 4)
-        print(prop.table(freq.choices), digits = 10)
+        print(prop.table(freq.choices), digits = 4)
         #xavi: stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-7."))
         #xavi: stop(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
         print(paste("Frequency, in response, of choice:", loChoice, "< 1e-14."))
