@@ -39,7 +39,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     print("Using modified version of mnlogit...")
     startTime <- proc.time()[3]
     initcall <- match.call()    # Store original function call
-
+print("1")
     # Basic parameter checking
     if (!is.data.frame(data))
        stop("data must be a data.frame in long format or a mlogit.data object")
@@ -47,6 +47,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
         ncores <- 1
         warning("Setting ncores equal to: 1")
     }
+print("2")
+
     if (!is.null(choiceVar) && is.factor(data[[choiceVar]])) {
         warning(paste("Column", choiceVar, "in data will NOT be treated as",
                       "factor, but as character string!"))
@@ -59,6 +61,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
         choiceVar <- "_Alt_Indx_"
         data[[choiceVar]] <- attr(data, "index")$alt # attach to 'data'
     }
+print("3")
 
     # Extract various types of variables from formula
     formula <- parseFormula(formula)
@@ -69,7 +72,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     csvGenVar <- attr(formula, "csvGenCoeff") 
     covariates <- c(csvChVar, indspVar, csvGenVar)    
     varNames <- attr(formula, "varNames")    
-
+    print("4")
+    
     if (is.null(covariates) && !interceptOn) 
         stop("Error! Predictor variable(s) must be specified")
     if (is.null(response)) 
@@ -84,14 +88,16 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
             stop("Error! No altrnative in 'alt.subset' is in data.")
         data <- data[keepRows, , drop=FALSE]  
     }
-
+    print("5")
+    
     # Determine relevant parameters
     choice.set <- unique(data[[choiceVar]]) # reordered when data is sorted
     K <- length(choice.set) # number of choices
     if (nrow(data) %% K)
         stop("Mismatch between number of rows in data and number of choices.")
     N <- nrow(data)/K       # number of individuals
-
+    print("6")
+    
     # Check if weights is OK 
     if (!is.null(weights) && length(weights) != N)
       stop("Length of 'weights' arg must match number of observations in data.")
@@ -99,11 +105,13 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
       stop("All entries in 'weights' must be strictly positive.")      
     # Normalize weights
     if (!is.null(weights)) weights <- weights * N / sum(weights)    
-
+    print("7")
+    
     # Work with only the columns appearing in formula
     #xavi: data <- data[c(varNames, choiceVar)]  
     data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
-
+    print("8")
+    
     # Handle NA; Find out row numbers with atleast one NA
     na.rows <- c()
     for (col in 1:ncol(data))
@@ -120,14 +128,20 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
             if (!all(keepRows[((i-1)*K + 1):(i*K)]))
                 keepRows[((i-1)*K + 1):(i*K)] <- FALSE
         }
+        print("9")
+        
         data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
         # Drop weights corresponding to dropped rows 
+        print("10")
+        
         if (!is.null(weights)) {
             weights <- weights[keepRows[seq(1, N * K, K)]]
         }
         N <- nrow(data)/K
         Ndropped <- (length(keepRows) - sum(keepRows))/K
     }
+    print("11")
+    
     if (print.level && Ndropped > 0) 
       cat(paste("Num of dropped observations (due to NA)  =", Ndropped, "\n"))
       
@@ -136,7 +150,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     #xavi: data <- data[order(data[[choiceVar]]), ]
     data <- data[order(data[[choiceVar]]), ]
     choice.set <- unique(data[[choiceVar]])
-
+    print("12")
+    
     # Obtain response vector as a vector of 0,1
     respVec <- data[[attr(formula, "response")]]
     if (is.factor(respVec)) respVec <- droplevels(respVec)
