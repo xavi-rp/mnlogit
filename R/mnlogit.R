@@ -101,12 +101,11 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     if (!is.null(weights)) weights <- weights * N / sum(weights)    
 
     # Work with only the columns appearing in formula
-    #xavi: data <- data[c(varNames, choiceVar)]  
+    #xavi: data <- data[c(varNames, choiceVar)] 
+    print("data 1:    ")
+    print(head(data))
     data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
-    print("varNames")
-    print(varNames)
-    print("choiceVar")
-    print(choiceVar)
+    print("data 2:    ")
     print(head(data))
     print(nrow(data))
     print("8")
