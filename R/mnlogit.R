@@ -127,20 +127,20 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
 
         print("unique: 1")
         print(unique(data$LCagg_model))
-        print("data[data$LCagg_model == "OFRU" & data$rsp == 1,]: 1  ")
+        print("data[data$LCagg_model == OFRU & data$rsp == 1,]: 1  ")
         print(data[data$LCagg_model == "OFRU" & data$rsp == 1,])
-        print("data[data$LCagg_model == "OFRU" & data$rsp == 0,]: 1  ")
+        print("data[data$LCagg_model == OFRU & data$rsp == 0,]: 1  ")
         print(data[data$LCagg_model == "OFRU" & data$rsp == 0,])
-        print("nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]):   1  ")
+        print("nrow(data[data$LCagg_model == OFRU & data$rsp == 0,]):   1  ")
         print(nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]))
         data <- data[keepRows, , drop=FALSE]  # el problema està en que es manté un level que no té cap rsp=1
         print("unique: 2")
         print(unique(data$LCagg_model))
-        print("data[data$LCagg_model == "OFRU" & data$rsp == 1,]: 2  ")
+        print("data[data$LCagg_model == OFRU & data$rsp == 1,]: 2  ")
         print(data[data$LCagg_model == "OFRU" & data$rsp == 1,])
-        print("data[data$LCagg_model == "OFRU" & data$rsp == 0,]: 2  ")
+        print("data[data$LCagg_model == OFRU & data$rsp == 0,]: 2  ")
         print(data[data$LCagg_model == "OFRU" & data$rsp == 0,])
-        print("nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]):   2  ")
+        print("nrow(data[data$LCagg_model == OFRU & data$rsp == 0,]):   2  ")
         print(nrow(data[data$LCagg_model == "OFRU" & data$rsp == 0,]))
         
         # Drop weights corresponding to dropped rows 
