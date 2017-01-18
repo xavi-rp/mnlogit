@@ -39,7 +39,6 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     print("Using modified version of mnlogit...")
     startTime <- proc.time()[3]
     initcall <- match.call()    # Store original function call
-print("1")
     # Basic parameter checking
     if (!is.data.frame(data))
        stop("data must be a data.frame in long format or a mlogit.data object")
@@ -47,7 +46,6 @@ print("1")
         ncores <- 1
         warning("Setting ncores equal to: 1")
     }
-print("2")
 
     if (!is.null(choiceVar) && is.factor(data[[choiceVar]])) {
         warning(paste("Column", choiceVar, "in data will NOT be treated as",
@@ -61,7 +59,6 @@ print("2")
         choiceVar <- "_Alt_Indx_"
         data[[choiceVar]] <- attr(data, "index")$alt # attach to 'data'
     }
-print("3")
 
     # Extract various types of variables from formula
     formula <- parseFormula(formula)
@@ -72,8 +69,7 @@ print("3")
     csvGenVar <- attr(formula, "csvGenCoeff") 
     covariates <- c(csvChVar, indspVar, csvGenVar)    
     varNames <- attr(formula, "varNames")    
-    print("4")
-    
+
     if (is.null(covariates) && !interceptOn) 
         stop("Error! Predictor variable(s) must be specified")
     if (is.null(response)) 
@@ -88,16 +84,14 @@ print("3")
             stop("Error! No altrnative in 'alt.subset' is in data.")
         data <- data[keepRows, , drop=FALSE]  
     }
-    print("5")
-    
+
     # Determine relevant parameters
     choice.set <- unique(data[[choiceVar]]) # reordered when data is sorted
     K <- length(choice.set) # number of choices
     if (nrow(data) %% K)
         stop("Mismatch between number of rows in data and number of choices.")
     N <- nrow(data)/K       # number of individuals
-    print("6")
-    
+
     # Check if weights is OK 
     if (!is.null(weights) && length(weights) != N)
       stop("Length of 'weights' arg must match number of observations in data.")
@@ -105,8 +99,7 @@ print("3")
       stop("All entries in 'weights' must be strictly positive.")      
     # Normalize weights
     if (!is.null(weights)) weights <- weights * N / sum(weights)    
-    print("7")
-    
+
     # Work with only the columns appearing in formula
     #xavi: data <- data[c(varNames, choiceVar)]  
     data <- data[, .SD, .SDcols = c(varNames, choiceVar)] #xavi: to work with data.table
@@ -116,13 +109,21 @@ print("3")
     na.rows <- c()
     for (col in 1:ncol(data))
         na.rows <- union(na.rows, which(is.na(data[[col]])))
+    print("81")
+    
     Ndropped <- 0
     if (length(na.rows) > 0) {
         if (!na.rm)
             stop("NA present in input data.frame with na.rm = FALSE.")
+      print("82")
+      
         # Mark rows with NA for deletion
         keepRows <- rep(TRUE, nrow(data))
+        print("83")
+        
         keepRows[na.rows] <- FALSE 
+        print("84")
+        
         # Starting with 1st, mark rows for deletion in groups of K
         for (i in 1:N) {
             if (!all(keepRows[((i-1)*K + 1):(i*K)]))
