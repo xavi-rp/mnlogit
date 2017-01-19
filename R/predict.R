@@ -43,7 +43,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	    stop("newdata must have same columns as training data. ")
 
 	# different model size: N # newdata must have N*K rows
-	size$K <- unique(newdata[[choiceVar]])
+	size$K <- length(unique(newdata[[choiceVar]]))
 	if (nrow(newdata) %% size$K)   #xavi: if they are different, stop it
 	  stop("Mismatch between nrows in newdata and number of choices.")
     }
