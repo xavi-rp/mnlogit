@@ -126,7 +126,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     probMat <- probMat * matrix(rep(baseProbVec, size$K-1),
 		      nrow = size$N, ncol = size$K-1) # P_ik
     probMat <- cbind(baseProbVec,probMat)
-
+    print(probMat)
+    
     if (nrow(probMat) == 1)
 	probMat <- as.matrix(probMat)
     colnames(probMat) <- choiceSet
@@ -135,7 +136,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
          if (returnData) attr(probMat, "data") <- newdata
 	return(probMat)
     } else {
-      print(probMat)
 	choice <- apply(probMat, 1, function(x)
 			object$choices[which(x == max(x, na.rm = TRUE))])
         if (returnData) attr(choice, "data") <- newdata
