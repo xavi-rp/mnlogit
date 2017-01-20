@@ -43,8 +43,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	    stop("newdata must have same columns as training data. ")
 
 	# different model size: N # newdata must have N*K rows
-	#xavi: if (nrow(newdata) %% size$K)   #xavi: if they are different, stop it
-	  #xavi: stop("Mismatch between nrows in newdata and number of choices.")
+	size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
+	                                               #xavi: This might happen with choices given in few cases. They might not be present when split data for calibration and prediction
+	if (nrow(newdata) %% size$K)   #xavi: if they are different, stop it
+	  stop("Mismatch between nrows in newdata and number of choices.")
     }
     data <- newdata
     size$N <- nrow(data)/size$K       # number of individuals
@@ -89,10 +91,12 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
+    print("1")
     # First compute the utility matrix (stored in probMat)
-    if (size$p) {
+    if (size$p) {  #xavi: this is for individual-specific variables
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
 			        nrow = size$p, ncol = (size$K-1), byrow=FALSE)
+         print("2")
     }
     if (size$f) {
         findYutil<- function(ch_k)
