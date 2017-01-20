@@ -138,6 +138,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	choice <- apply(probMat, 1, function(x)
 			object$choices[which(x == max(x, na.rm = TRUE))])
         if (returnData) attr(choice, "data") <- newdata
+        print(choice)
+        stop("liuhñirehói")
 	return(choice)
     }
 }
