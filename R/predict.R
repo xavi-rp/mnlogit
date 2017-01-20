@@ -106,11 +106,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
       
-      print(str(data))
-      stop("quieta")
-         names(data)[sapply(data, is.factor)]
+         factors_clc <- names(data)[sapply(data, is.factor)]
+         factors_clc1 <- length(unique(data[,factors_clc])) 
          probMat1 <- matrix(coeffVec[1:((size$K-1) *size$p)],
-                            nrow = size$p, ncol = (size$K-1), byrow=FALSE)
+                            nrow = (size$p -1 +  factors_clc1), ncol = (size$K-1), byrow=FALSE)
          print("dim(X)")
          print(dim(X))
          print("dim(probMat1)")
