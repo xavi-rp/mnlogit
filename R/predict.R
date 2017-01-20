@@ -93,18 +93,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
-    print(head(coeffVec))
-    print("names(coeffVec):   ")
-    print(names(coeffVec))
-    print("unique(newdata[[choiceVar]]):    ")
-    print(unique(newdata[[choiceVar]]))
-    print("names(coeffVec) %in% unique(newdata[[choiceVar]]):   ")
-    print(grep(paste0(names(coeffVec), "$"), names(coeffVec), value = TRUE) %in% unique(newdata[[choiceVar]]))
-    
-    coeffVec2 <- coeffVec[grep(paste0(names(coeffVec), "$"), names(coeffVec), value = TRUE) %in% unique(newdata[[choiceVar]])]
-    print("coeffVec2:   ")
-    print(coeffVec2)
-    
+   
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
@@ -141,7 +130,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (nrow(probMat) == 1)
 	probMat <- as.matrix(probMat)
     colnames(probMat) <- choiceSet
-print("2")
+
     if (probability) {
          if (returnData) attr(probMat, "data") <- newdata
 	return(probMat)
