@@ -71,8 +71,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
     X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars
-    print(head(X))
-    stop("...")
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 
@@ -107,6 +105,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
+      
+      print(str(data))
+      stop("quieta")
+         names(data)[sapply(data, is.factor)]
          probMat1 <- matrix(coeffVec[1:((size$K-1) *size$p)],
                             nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          print("dim(X)")
