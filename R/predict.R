@@ -106,18 +106,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
-      
-         print(size$p)
-         print("dim(X)")
-         print(dim(X))
-         print(head(X))
-         probMat1 <- matrix(coeffVec[1:((size$K-1) *size$p)],
-                            nrow = size$p, ncol = (size$K-1), byrow=FALSE)
-         print("dim(probMat1)")
-         print(dim(probMat1))
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
 			        nrow = size$p, ncol = (size$K-1), byrow=FALSE)
-         print("2")
     }
     if (size$f) {
         findYutil<- function(ch_k)
@@ -149,9 +139,9 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     if (nrow(probMat) == 1)
 	probMat <- as.matrix(probMat)
-	 	
+	 	print("1")
     colnames(probMat) <- choiceSet
-
+print("2")
     if (probability) {
          if (returnData) attr(probMat, "data") <- newdata
 	return(probMat)
