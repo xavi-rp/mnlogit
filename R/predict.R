@@ -108,7 +108,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
       
          factors_clc <- names(data)[sapply(data, is.factor)]
          factors_clc <- length(unique(data[,factors_clc])) 
-         print(factors_clc1)
+         print(factors_clc)
          print(size$p)
          probMat1 <- matrix(coeffVec[1:((size$K-1) *size$p)],
                             nrow = (size$p -1 +  factors_clc), ncol = (size$K-1), byrow=FALSE)
