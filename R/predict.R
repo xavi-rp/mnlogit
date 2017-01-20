@@ -99,7 +99,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     print("unique(newdata[[choiceVar]]) %in% names(coeffVec):   ")
     print(names(coeffVec) %in% unique(newdata[[choiceVar]]))
     
-    coeffVec2 <- coeffVec[grepl(names(coeffVec) %in% unique(newdata[[choiceVar]]), names(coeffVec))]
+    coeffVec2 <- coeffVec[grep(names(coeffVec) %in% unique(newdata[[choiceVar]]), names(coeffVec), value = TRUE)]
     print("coeffVec2:   ")
     print(coeffVec2)
     
