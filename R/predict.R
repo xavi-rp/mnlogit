@@ -9,6 +9,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     size     <- object$model.size
     # get choice set for colnames
     choiceSet <- unique(index(object)$alt)
+    print(choiceSet)
+    print(unique(newdata$LCagg_model)
 
     if (is.null(newdata)) {
         # if no new data, use probabilities computed during training model
@@ -139,7 +141,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     if (nrow(probMat) == 1)
 	probMat <- as.matrix(probMat)
-	 	print("1")
     colnames(probMat) <- choiceSet
 print("2")
     if (probability) {
