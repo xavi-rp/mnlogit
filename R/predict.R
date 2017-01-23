@@ -14,13 +14,13 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (is.null(newdata)) {
         # if no new data, use probabilities computed during training model
         if (probability)
-	    return(object$probabilities)
+	          return(object$probabilities)
         else { 
-	    return(apply(object$probabilities, 1, function(x)
-			object$choices[which(x == max(x, na.rm = TRUE))]))
+	          return(apply(object$probabilities, 1, function(x)
+			                  object$choices[which(x == max(x, na.rm = TRUE))]))
         }
     } else {
-	# make sure newdata is ordered by choice
+	      # make sure newdata is ordered by choice
         if (is.null(choiceVar)) {
           if (!any(class(newdata) == "mlogit.data"))
             stop("NULL choiceVar requires newdata to be a mlogit.data object")
@@ -30,24 +30,24 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
           newdata[[choiceVar]] <- attr(newdata, "index")$alt
           #newdata[[choiceVar]] <- index(object)$alt
         }
-	newdata <- newdata[order(newdata[[choiceVar]]), ]
+	      newdata <- newdata[order(newdata[[choiceVar]]), ]
 
-	# Get name of response column
-	pf <- parseFormula(object$formula)
-	resp.col <- attr(pf, "response")
+	      # Get name of response column
+	      pf <- parseFormula(object$formula)
+	      resp.col <- attr(pf, "response")
 
         # check that all columns from data are present (except response col)
         # this is important when you build Y below.
-	newn <- names(newdata)
-	oldn <- setdiff(names(object$model), resp.col)
-	if (!all(oldn %in% newn))
-	    stop("newdata must have same columns as training data. ")
+	      newn <- names(newdata)
+	      oldn <- setdiff(names(object$model), resp.col)
+      	if (!all(oldn %in% newn))
+      	    stop("newdata must have same columns as training data. ")
 
-	# different model size: N # newdata must have N*K rows
-	size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
+	      # different model size: N # newdata must have N*K rows
+	      size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
 	                                               #xavi: This might happen with choices given in few cases. They might not be present when split data for calibration and prediction
-	if (nrow(newdata) %% size$K)   #xavi: if they are different, stop it
-	  stop("Mismatch between nrows in newdata and number of choices.")
+	      if (nrow(newdata) %% size$K)   #xavi: if they are different, stop it
+	        stop("Mismatch between nrows in newdata and number of choices.")
     }
     data <- newdata
     size$N <- nrow(data)/size$K       # number of individuals
@@ -85,7 +85,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
         for (ch_k in 2:size$K) {
             Z[((ch_k - 1)*size$N + 1):(ch_k*size$N), ] <-
               Z[((ch_k-1)*size$N+1):(ch_k*size$N), , drop=FALSE] - 
-	      Z[1:size$N, , drop=FALSE]
+	            Z[1:size$N, , drop=FALSE]
         }
     }
     # Drop rows for base alternative
@@ -97,29 +97,29 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
-			        nrow = size$p, ncol = (size$K-1), byrow=FALSE)
+			                          nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          #print(probMat)
          
     }
     if (size$f) {
         findYutil<- function(ch_k)
-	{
-	    offset <- (size$K - 1)*size$p
-	    init <- (ch_k - 1)*size$N + 1
-	    fin <- ch_k * size$N
-	    Y[init:fin, , drop=FALSE] %*%
-	    coeffVec[((ch_k-1)*size$f + 1 + offset):(ch_k*size$f+offset)]
-	}
-	vec <- as.vector(sapply(c(1:size$K), findYutil))
-	# normalize w.r.t. to k0 here - see vignette on utility normalization
-	vec <- vec - vec[1:size$N]
-	probMat <- probMat + matrix(vec[(size$N+1):(size$N*size$K)], 
-				 nrow = size$N, ncol = (size$K-1), byrow=FALSE)
+	      {
+	          offset <- (size$K - 1)*size$p
+	          init <- (ch_k - 1)*size$N + 1
+	          fin <- ch_k * size$N
+	          Y[init:fin, , drop=FALSE] %*%
+	          coeffVec[((ch_k-1)*size$f + 1 + offset):(ch_k*size$f+offset)]
+	      }
+	      vec <- as.vector(sapply(c(1:size$K), findYutil))
+	      # normalize w.r.t. to k0 here - see vignette on utility normalization
+	      vec <- vec - vec[1:size$N]
+	      probMat <- probMat + matrix(vec[(size$N+1):(size$N*size$K)], 
+				                         nrow = size$N, ncol = (size$K-1), byrow=FALSE)
     }
     if (size$d) {
-	probMat <- probMat +
-	    matrix(Z %*% coeffVec[(size$nparams - size$d + 1):size$nparams],
-		nrow = size$N, ncol=(size$K-1), byrow=FALSE)
+	      probMat <- probMat +
+	          matrix(Z %*% coeffVec[(size$nparams - size$d + 1):size$nparams],
+		            nrow = size$N, ncol=(size$K-1), byrow=FALSE)
     }
 
     # Convert utility to probabilities - use logit formula
@@ -134,10 +134,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     colnames(probMat) <- choiceSet
     
     
-    if (probability) {
+    if (probability) { #xavi:this gives probs
          if (returnData) attr(probMat, "data") <- newdata
 	      return(probMat)
-    } else {
+    } else { #this gives the best choice
 	      choice <- apply(probMat, 1, function(x)
 			                  object$choices[which(x == max(x, na.rm = TRUE))])
         if (returnData) attr(choice, "data") <- newdata
