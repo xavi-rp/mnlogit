@@ -130,9 +130,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     probMat <- cbind(baseProbVec,probMat)
     
     if (nrow(probMat) == 1)
-	probMat <- as.matrix(probMat)
+	      probMat <- as.matrix(probMat)
     colnames(probMat) <- choiceSet
-
+    
+    
     if (probability) {
          if (returnData) attr(probMat, "data") <- newdata
 	return(probMat)
