@@ -43,18 +43,16 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	      oldn <- setdiff(names(object$model), resp.col)
       	if (!all(oldn %in% newn))
       	    stop("newdata must have same columns as training data. ")
-        print(nrow(newdata))
-        print(size$K)
-        stop("...")
+
 	      # different model size: N # newdata must have N*K rows
 	      size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
 	                                               #xavi: This might happen with choices given in few cases. They might not be present when split data for calibration and prediction
 	      
-	      if (nrow(newdata) %% size$K)   #xavi: if they are different, stop it
+	      if (nrow(newdata) %% size$K)   #xavi: if number of choices in newdata and in fitting data are different, stop it
 	        stop("Mismatch between nrows in newdata and number of choices.")
     }
     data <- newdata
-    size$N <- nrow(data)/size$K       # number of individuals
+    size$N <- nrow(data)/size$K       # number of individuals #xavi: in newdata
     if (!(resp.col %in% names(data))) # attach a response column 
         data[[resp.col]] <- rep(1, size$N)
 
