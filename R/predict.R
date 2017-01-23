@@ -7,6 +7,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
                             returnData = FALSE, choiceVar=NULL, ...) 
 {
     size     <- object$model.size
+    print(size)
     # get choice set for colnames
     #xavi: choiceSet <- unique(index(object)$alt)
     choiceSet <- unique(newdata$LCagg_model)
