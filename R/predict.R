@@ -136,11 +136,11 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     
     if (probability) {
          if (returnData) attr(probMat, "data") <- newdata
-	return(probMat)
+	      return(probMat)
     } else {
-	choice <- apply(probMat, 1, function(x)
-			object$choices[which(x == max(x, na.rm = TRUE))])
+	      choice <- apply(probMat, 1, function(x)
+			                  object$choices[which(x == max(x, na.rm = TRUE))])
         if (returnData) attr(choice, "data") <- newdata
-	return(choice)
+	      return(choice)
     }
 }
