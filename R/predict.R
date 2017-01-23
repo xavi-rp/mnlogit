@@ -98,7 +98,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (size$p) {  #xavi: this is for individual-specific variables
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
 			                          nrow = size$p, ncol = (size$K-1), byrow=FALSE)
-         #print(probMat)
+         print("2")
+         print(head(probMat))
          
     }
     if (size$f) {
@@ -124,10 +125,18 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     # Convert utility to probabilities - use logit formula
     probMat <- exp(probMat)                           # exp(utility)
+    print("3")
+    print(head(probMat))
+    
     baseProbVec <- 1/(1 + rowSums(probMat))           # P_i0
     probMat <- probMat * matrix(rep(baseProbVec, size$K-1),
 		      nrow = size$N, ncol = size$K-1) # P_ik
+    print("4")
+    print(head(probMat))
+    
     probMat <- cbind(baseProbVec,probMat)
+    print("5")
+    print(head(probMat))
     
     if (nrow(probMat) == 1)
 	      probMat <- as.matrix(probMat)
