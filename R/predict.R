@@ -98,7 +98,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (size$p) {  #xavi: this is for individual-specific variables
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
 			        nrow = size$p, ncol = (size$K-1), byrow=FALSE)
-         print(probMat)
+         #print(probMat)
          
     }
     if (size$f) {
@@ -140,8 +140,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	choice <- apply(probMat, 1, function(x)
 			object$choices[which(x == max(x, na.rm = TRUE))])
         if (returnData) attr(choice, "data") <- newdata
-        print(choice)
-        stop("liuhñirehói")
 	return(choice)
     }
 }
