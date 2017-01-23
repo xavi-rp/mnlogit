@@ -44,7 +44,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
       	if (!all(oldn %in% newn))
       	    stop("newdata must have same columns as training data. ")
         print(nrow(newdata))
-        print(size$k)
+        print(size$K)
         stop("...")
 	      # different model size: N # newdata must have N*K rows
 	      size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
