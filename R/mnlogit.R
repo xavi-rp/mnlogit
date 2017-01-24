@@ -178,6 +178,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     } 
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
+    print(X)
+    stop("xxxxx")
     X <- if (!is.null(X)) X[1:N, , drop=FALSE]   # Matrix of ind sp vars
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
