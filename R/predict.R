@@ -80,9 +80,9 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
     print("size$p")
     print(size$p)
-    size$p <- dim(X)[2] #xavi: need to be the same for X and for the new matrix (the one coming from fitted model)
-    print("size$p")
-    print(size$p)
+    size_p <- dim(X)[2] #xavi: need to be the same for X and for the new matrix (the one coming from fitted model)
+    print("size_p")
+    print(size_p)
     
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
@@ -113,7 +113,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (size$p) {  #xavi: this is for individual-specific variables
          kk <- matrix(coeffVec[1:((size$K-1) *size$p)],
                       nrow = size$p, ncol = (size$K-1), byrow=FALSE)
-         names(kk) <- choiceSet
          print(head(kk, 30))
          stop("kkkkkkk")
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
