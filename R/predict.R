@@ -79,8 +79,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
     #options(na.action = as.character(current.na.action))
-    X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
-    print(head(X))
+    X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also, and only!, the variables not removed during calibration because of their linear dependency
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 
@@ -101,9 +100,13 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     
     #xavi: Remove variables that have been removed during calibration because of linear dependency
     vars2keep <- object$varNamesList
-    print(vars2keep)
+    indSpVar2keep <- object$varNamesList$indSpVar
+    print(indSpVar2keep)
+    
     stop("vars2keeeeeeep")
-    X <- vars2keep
+    X <- Xvars2keep
+    rgs1 <- regressors[1]
+    df[unlist(rgs1)]
     
     print(head(X))
     
