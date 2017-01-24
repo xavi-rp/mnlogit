@@ -67,13 +67,17 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
             fm <- paste(fm, paste(varVec, collapse = "+")) #xavi:this is the formula
         if (!includeIntercept) fm <- paste(fm, "-1 ")
         else fm <- paste(fm, "+1 ")
+        #xavi: we need to keep the NA's to get a matrix with the same dimensions
+        current.na.action <- options('na.action') # xavi: to store current na.action to put it back after model.matrix() 
+        options(na.action='na.pass')
         modMat <- model.matrix(as.formula(fm), data)  #xavi: made with newdata
+        options(na.action = as.character(current.na.action))
     }
     # Grab the parsed formula from the fitted mnlogit object 
     formula  <- parseFormula(object$formula)
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
-    #xavi: X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
+    X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars 
     print("size$p")
     print(size$p)
     size$p <- dim(X)[2] #xavi: need to be the same for X and for the new matrix (the one coming from fitted model)
