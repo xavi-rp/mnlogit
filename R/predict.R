@@ -40,6 +40,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
         # this is important when you build Y below.
 	      newn <- names(newdata)
 	      oldn <- setdiff(names(object$model), resp.col)
+	      print(newn)
+	      print(oldn)
       	if (!all(oldn %in% newn))
       	    stop("newdata must have same columns as training data. ")
 
