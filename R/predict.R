@@ -73,7 +73,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     formula  <- parseFormula(object$formula)
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
-    X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars
+    #xavi: X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
     print("size$p")
     print(size$p)
     size$p <- dim(X)[2] #xavi: need to be the same for X and for the new matrix (the one coming from fitted model)
