@@ -48,6 +48,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	                                               #xavi: This might happen with choices given in few cases. They might not be present when split data for calibration and prediction
 	      
 	      if (nrow(newdata) %% size$K)   #xavi: if number of choices in newdata and in fitting data are different, stop it
+	                                     #xavi: avoid this point changing size$K with number of choices in newdata 
 	        stop("Mismatch between nrows in newdata and number of choices.")
     }
     data <- newdata
@@ -94,8 +95,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
-    print("length coeffVec: ")
+    print("length coeffVec and number of NA's: ")
     print(length(coeffVec))
+    print(sum(is.na(coeffVec)))
+    print(coeffVec)
    
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
