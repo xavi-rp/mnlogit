@@ -105,6 +105,12 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
          kk <- matrix(coeffVec[1:((size$K-1) *size$p)],
                       nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          print(head(kk, 30))
+         print("dim(X)")
+         print(dim(X))
+         print("dim(kk)")
+         print(dim(kk))
+         print("dim(probMat)")
+         print(dim(probMat))
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
 			                          nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          print("2")
