@@ -140,7 +140,6 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
       
     # Rearrange the input data.frame object
     # Sort according to choices: data for an atlernative should be contiguous
-    #xavi: data <- data[order(data[[choiceVar]]), ]
     data <- data[order(data[[choiceVar]]), ]
     choice.set <- unique(data[[choiceVar]])
 
@@ -178,8 +177,6 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     } 
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
-    print(X)
-    stop("xxxxx")
     X <- if (!is.null(X)) X[1:N, , drop=FALSE]   # Matrix of ind sp vars
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
@@ -217,6 +214,8 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     # Eliminate linearly dependent columns
     if (!is.null(X))
       X <- X[ , setdiff(1:ncol(X), badColsList$indSpVar), drop=FALSE]
+      print(X)
+      stop("xxx")
     if (!is.null(Y))
       Y <- Y[ , setdiff(1:ncol(Y), badColsList$csvChCoeff), drop=FALSE]
     if (!is.null(Z))
