@@ -104,6 +104,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (size$p) {  #xavi: this is for individual-specific variables
          kk <- matrix(coeffVec[1:((size$K-1) *size$p)],
                       nrow = size$p, ncol = (size$K-1), byrow=FALSE)
+         names(kk) <- choiceSet
          print(head(kk, 30))
          stop("kkkkkkk")
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
