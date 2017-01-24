@@ -74,7 +74,12 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
     X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars
+    print("size$p")
+    print(size$p)
     size$p <- dim(X)[2] #xavi: need to be the same for X and for the new matrix (the one coming from fitted model)
+    print("size$p")
+    print(size$p)
+    
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 
