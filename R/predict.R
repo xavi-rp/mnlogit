@@ -78,7 +78,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
                        includeIntercept = attr(formula, "Intercept"))
     options(na.action = as.character(current.na.action))
     X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
-
+    print(head(X))
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 
@@ -104,6 +104,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     if (size$p) {  #xavi: this is for individual-specific variables
          kk <- matrix(coeffVec[1:((size$K-1) *size$p)],
                       nrow = size$p, ncol = (size$K-1), byrow=FALSE)
+         print("head(kk)")
          print(head(kk, 30))
          print("dim(X)")
          print(dim(X))
