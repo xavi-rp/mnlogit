@@ -100,15 +100,14 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     
     #xavi: Remove variables that have been removed during calibration because of linear dependency
     vars2keep <- object$varNamesList
+    
     indSpVar2keep <- object$varNamesList$indSpVar
-    print(indSpVar2keep)
+    X <- X[indSpVar2keep]
+    print(head(X))
+    
     
     stop("vars2keeeeeeep")
-    X <- Xvars2keep
-    rgs1 <- regressors[1]
-    df[unlist(rgs1)]
     
-    print(head(X))
     
     
     # Grab trained model coeffs from fitted mnlogit object
