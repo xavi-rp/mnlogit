@@ -73,11 +73,11 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     # Grab the parsed formula from the fitted mnlogit object 
     formula  <- parseFormula(object$formula)
     #xavi: we need to keep the NA's to get a matrix with the same dimensions
-    current.na.action <- options('na.action') # xavi: to store current na.action to put it back after model.matrix() 
-    options(na.action='na.pass')
+    #current.na.action <- options('na.action') # xavi: to store current na.action to put it back after model.matrix() 
+    #options(na.action='na.pass')
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
-    options(na.action = as.character(current.na.action))
+    #options(na.action = as.character(current.na.action))
     X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
     print(head(X))
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
