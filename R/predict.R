@@ -99,17 +99,12 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
-    print("length coeffVec and number of NA's: ")
-    print(length(coeffVec))
-    print(sum(is.na(coeffVec)))
-    print(coeffVec)
-   
+
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
          kk <- matrix(coeffVec[1:((size$K-1) *size$p)],
                       nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          print(head(kk, 30))
-         stop("kkkkkkk")
          probMat <- probMat + X %*% matrix(coeffVec[1:((size$K-1) *size$p)],
 			                          nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          print("2")
