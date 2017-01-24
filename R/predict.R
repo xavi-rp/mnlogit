@@ -8,9 +8,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 {
     size     <- object$model.size
     # get choice set for colnames
-    #xavi: choiceSet <- unique(index(object)$alt)
-    choiceSet <- unique(newdata$LCagg_model)  #xavi: needs to be generalised!!
- 
+    choiceSet <- unique(index(object)$alt)
+    #kk: choiceSet <- unique(newdata$LCagg_model)  #xavi: needs to be generalised!!
     if (is.null(newdata)) {
         # if no new data, use probabilities computed during training model
         if (probability)
@@ -99,7 +98,15 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     }
     # Drop rows for base alternative
     Z <- Z[(size$N + 1):(size$K*size$N), , drop=FALSE]
-
+    
+    #xavi: Remove variables that have been removed during calibration because of linear dependency
+    vars2keep <- object$coeffNames
+    stop("vars2keeeeeeep")
+    X <- vars2keep
+    
+    print(head(X))
+    
+    
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
     print("coeffVec:")

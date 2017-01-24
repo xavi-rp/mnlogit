@@ -310,6 +310,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
                model         = data,                     
                freq          = freq.choices,             
                formula       = Formula(formula(formula)),
+               coeffNames    = coeffNames,  #xavi: variables to keep when predicting
                call          = initcall),
              class = "mnlogit"
            )
