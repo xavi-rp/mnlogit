@@ -100,6 +100,9 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
+    print("coeffVec:")
+    print(length(coeffVec))
+    print(coeffVec)
 
     # First compute the utility matrix (stored in probMat)
     if (size$p) {  #xavi: this is for individual-specific variables
