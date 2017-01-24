@@ -80,7 +80,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     options(na.action = as.character(current.na.action))
     X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
     print(head(X))
-    stop("XXXX")
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 
@@ -118,6 +117,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 			                          nrow = size$p, ncol = (size$K-1), byrow=FALSE)
          print("2")
          print(head(probMat))
+         stop("22222222")
          
     }
     if (size$f) {
