@@ -9,7 +9,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     size     <- object$model.size
     # get choice set for colnames
     #xavi: choiceSet <- unique(index(object)$alt)
-    choiceSet <- unique(newdata$LCagg_model)
+    choiceSet <- unique(newdata$LCagg_model)  #xavi: needs to be generalised!!
  
     if (is.null(newdata)) {
         # if no new data, use probabilities computed during training model
@@ -34,7 +34,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 
 	      # Get name of response column
 	      pf <- parseFormula(object$formula)
-	      resp.col <- attr(pf, "response")
+	      resp.col <- attr(pf, "response")   #xavi: the one with 0 and 1
 
         # check that all columns from data are present (except response col)
         # this is important when you build Y below.
@@ -44,12 +44,13 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
       	    stop("newdata must have same columns as training data. ")
 
 	      # different model size: N # newdata must have N*K rows
-	      size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
+	      # size$K <- length(unique(newdata[[choiceVar]])) #xavi: Modifying K, number of choices of newdata given that could be different from the ones of the model fitted
 	                                               #xavi: This might happen with choices given in few cases. They might not be present when split data for calibration and prediction
 	      
 	      if (nrow(newdata) %% size$K)   #xavi: if number of choices in newdata and in fitting data are different, stop it
 	                                     #xavi: avoid this point changing size$K with number of choices in newdata 
-	        stop("Mismatch between nrows in newdata and number of choices.")
+	        #xavi: stop("Mismatch between nrows in newdata and number of choices.")
+	        print("Mismatch between nrows in newdata and number of choices. # xavi: however, go ahead!!")
     }
     data <- newdata
     size$N <- nrow(data)/size$K       # number of individuals #xavi: in newdata
@@ -77,8 +78,9 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     X <- formDesignMat(varVec = attr(formula, "indSpVar"), 
                        includeIntercept = attr(formula, "Intercept"))
     options(na.action = as.character(current.na.action))
-    #X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
+    X <- if (!is.null(X)) X[1:size$N, , drop=FALSE]   # Matrix of ind sp vars #xavi: we need to keep also NA's, otherwise size$p changes and the coeffs are placed wrongly
     print(head(X))
+    stop("XXXX")
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 

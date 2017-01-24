@@ -214,8 +214,6 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     # Eliminate linearly dependent columns
     if (!is.null(X))
       X <- X[ , setdiff(1:ncol(X), badColsList$indSpVar), drop=FALSE]
-      print(X)
-      stop("xxx")
     if (!is.null(Y))
       Y <- Y[ , setdiff(1:ncol(Y), badColsList$csvChCoeff), drop=FALSE]
     if (!is.null(Z))
