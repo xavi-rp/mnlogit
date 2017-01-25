@@ -145,8 +145,8 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     # Convert utility to probabilities - use logit formula
     probMat <- exp(probMat)                           # exp(utility)
 
-    #xavi: baseProbVec <- 1/(1 + rowSums(probMat))           # P_i0
-    baseProbVec <- 1/(1 + rowSums(probMat, na.rm = TRUE))   # P_i0  #xavi: to avoid NA as results when NA present in data frame
+    baseProbVec <- 1/(1 + rowSums(probMat))           # P_i0
+    #xavi: baseProbVec <- 1/(1 + rowSums(probMat, na.rm = TRUE))   # P_i0  #xavi: to avoid NA as results when NA present in data frame
     probMat <- probMat * matrix(rep(baseProbVec, size$K-1),
 		      nrow = size$N, ncol = size$K-1) # P_ik
 
