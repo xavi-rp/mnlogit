@@ -9,7 +9,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     size     <- object$model.size
     # get choice set for colnames
     choiceSet <- unique(index(object)$alt)
-    #kk: choiceSet <- unique(newdata$LCagg_model)  #xavi: needs to be generalised!!
+    
     if (is.null(newdata)) {
         # if no new data, use probabilities computed during training model
         if (probability)
@@ -53,6 +53,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     }
     data <- newdata
     size$N <- nrow(data)/size$K       # number of individuals #xavi: in newdata
+    print(size$N)
     if (!(resp.col %in% names(data))) # attach a response column 
         data[[resp.col]] <- rep(1, size$N)
 
