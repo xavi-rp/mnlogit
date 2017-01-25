@@ -78,8 +78,6 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     
     Y <- formDesignMat(varVec = attr(formula, "csvChCoeff"), 
                        includeIntercept = FALSE)
-    print(Y)
-    stop(yyyyyyyy)
     Z <- formDesignMat(varVec = attr(formula, "csvGenCoeff"), 
                        includeIntercept = FALSE)
 
