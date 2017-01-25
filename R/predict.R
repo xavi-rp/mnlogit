@@ -97,19 +97,19 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     #xavi: Remove variables that have been removed during calibration because of linear dependency
     if (!is.null(X)){
       indSpVar2keep <- object$varNamesList$indSpVar
-      indSpVar2keep <- indSpVar2keep[-1]
+      indSpVar2keep <- indSpVar2keep
       X <- X[, indSpVar2keep]
     }
 
     if (!is.null(Y)){
       csvChCoeffVar2keep <- object$varNamesList$csvChCoeff
-      csvChCoeffVar2keep <- csvChCoeffVar2keep[-1]
+      csvChCoeffVar2keep <- csvChCoeffVar2keep
       Y <- Y[, csvChCoeffVar2keep]
     }
     
     if (!is.null(Z)){
       csvGenCoeffVar2keep <- object$varNamesList$csvGenCoeff
-      csvGenCoeffVar2keep <- csvGenCoeffVar2keep[-1]
+      csvGenCoeffVar2keep <- csvGenCoeffVar2keep
       Z <- Z[, csvGenCoeffVar2keep]
     }
     
