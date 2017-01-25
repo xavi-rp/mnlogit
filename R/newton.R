@@ -89,9 +89,7 @@ newtonRaphson <- function(response, X, Y, Z, K, maxiter, gtol, ftol,
         # Find NR update vector by solving a linear system
         t0 <- proc.time()[3] 
         #xavi: dir <- -1 * as.vector(solve(hessian, gradient, tol = 1e-24)) #xavi: tol = the tolerance for detecting linear dependencies in the columns of the matrix
-        print(rcond(hessian))
- 
-        
+
         dir_func <- function(hessian, gradient){ # xavi: this is to avoid stopping the modelling process if solve gives an error
           res <- tryCatch(
             {
