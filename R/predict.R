@@ -100,6 +100,7 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     indSpVar2keep <- indSpVar2keep[-1]
     X <- X[, indSpVar2keep]
 
+    print(is.null(Y))
     if (!is.null(Y))
     csvChCoeffVar2keep <- object$varNamesList$csvChCoeff
     csvChCoeffVar2keep <- csvChCoeffVar2keep[-1]
