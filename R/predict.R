@@ -97,10 +97,11 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     Z <- Z[(size$N + 1):(size$K*size$N), , drop=FALSE]
     
     #xavi: Remove variables that have been removed during calibration because of linear dependency
-    vars2keep <- object$varNamesList
-    
+
     indSpVar2keep <- object$varNamesList$indSpVar
+    print(indSpVar2keep)
     indSpVar2keep <- indSpVar2keep[-1]
+    print(indSpVar2keep)
     X <- X[indSpVar2keep]
     print(head(X))
     
