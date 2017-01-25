@@ -99,8 +99,8 @@ newtonRaphson <- function(response, X, Y, Z, K, maxiter, gtol, ftol,
             },
             error = function(con){
               message(con)
-              message("hessian is singular, mnlogit is NA")
-              return(NA)
+              message(" hessian is singular, mnlogit is NA")
+              return(next)
             }
           )
           return(res)
