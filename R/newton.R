@@ -99,14 +99,15 @@ newtonRaphson <- function(response, X, Y, Z, K, maxiter, gtol, ftol,
             },
             error = function(con){
               message(con)
-              message(" hessian is singular, mnlogit is NA")
-              return(next)
+              message(" hessian is singular, jump to next loop")
+              return(NA)
             }
           )
           return(res)
         }
         
         dir <- dir_func(hessian, gradient)
+        if(is.na(dir)) next
         solveTime <- solveTime + proc.time()[3] - t0 
         # Measure grad norm as: sqrt(grad^T * H^-1 * grad)
         gradNorm <- as.numeric(sqrt(abs(crossprod(dir, gradient))))
