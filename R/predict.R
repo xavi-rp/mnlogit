@@ -97,19 +97,20 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
     Z <- Z[(size$N + 1):(size$K*size$N), , drop=FALSE]
     
     #xavi: Remove variables that have been removed during calibration because of linear dependency
-    print(head(X))
-    
+    if (!is.null(X))
     indSpVar2keep <- object$varNamesList$indSpVar
-    print(indSpVar2keep)
     indSpVar2keep <- indSpVar2keep[-1]
-    print(indSpVar2keep)
     X <- X[, indSpVar2keep]
-    print(head(X))
+
+    if (!is.null(Y))
+    csvChCoeffVar2keep <- object$varNamesList$csvChCoeff
+    csvChCoeffVar2keep <- csvChCoeffVar2keep[-1]
+    Y <- Y[, csvChCoeffVar2keep]
     
-    
-    stop("vars2keeeeeeep")
-    
-    
+    if (!is.null(Z))
+    csvGenCoeffVar2keep <- object$varNamesList$csvGenCoeff
+    csvGenCoeffVar2keep <- csvGenCoeffVar2keep[-1]
+    Z <- Z[, csvGenCoeffVar2keep]
     
     # Grab trained model coeffs from fitted mnlogit object
     coeffVec <- object$coeff
