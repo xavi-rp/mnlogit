@@ -107,7 +107,7 @@ newtonRaphson <- function(response, X, Y, Z, K, maxiter, gtol, ftol,
         }
         
         dir <- dir_func(hessian, gradient)
-        if(is.na(dir)) next
+        if(is.na(dir)) break
         solveTime <- solveTime + proc.time()[3] - t0 
         # Measure grad norm as: sqrt(grad^T * H^-1 * grad)
         gradNorm <- as.numeric(sqrt(abs(crossprod(dir, gradient))))
