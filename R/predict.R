@@ -51,8 +51,10 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	        #xavi: stop("Mismatch between nrows in newdata and number of choices.")
 	        print("Mismatch between nrows in newdata and number of choices. # xavi: however, go ahead!!")
     }
+    K_newdata <- newdata[[choiceVar]]  # xavi: number of choices in newdata
     data <- newdata
-    size$N <- nrow(data)/size$K       # number of individuals #xavi: in newdata
+    #xavi size$N <- nrow(data)/size$K       # number of individuals #xavi: in newdata
+    size$N <- nrow(data)/K_newdata       # number of individuals #xavi: in newdata
     print(size$N)
     if (!(resp.col %in% names(data))) # attach a response column 
         data[[resp.col]] <- rep(1, size$N)
