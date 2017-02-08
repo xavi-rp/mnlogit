@@ -101,8 +101,9 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
     if (!is.null(weights)) weights <- weights * N / sum(weights)    
 
     # Work with only the columns appearing in formula
-    #xavi: data <- data[c(varNames, choiceVar)] 
-    data <- data[, c(varNames, choiceVar), with = FALSE] #xavi: to work with data.table
+    data <- as.data.frame(data)
+    data <- data[c(varNames, choiceVar)] 
+    #data <- data[, c(varNames, choiceVar), with = FALSE] #xavi: to work with data.table
    
     # Handle NA; Find out row numbers with atleast one NA
     na.rows <- c()
