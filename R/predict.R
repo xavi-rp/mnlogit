@@ -16,7 +16,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
     # get choice set for colnames
     choiceSet <- unique(index(object)$alt)
     
-    if (is.null(newdata)) {
+    if (is.null(newdata)) { #xavi: here need to be included constrains!!!
+      
         # if no new data, use probabilities computed during training model
         if (probability)
 	          return(object$probabilities)
@@ -193,6 +194,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
           max_crop <- as.data.frame(max_regr_crop_sc[max_regr_crop_sc[,1]==crp, ])
           min_crop <- as.data.frame(min_regr_crop_sc[min_regr_crop_sc[,1]==crp, ])
           
+          print("max_crop")
+          print(max_crop)
           max_crop <- max_crop[colnames(cond_pred)] >= cond_pred
           min_crop <- cond_pred >= min_crop[colnames(cond_pred)]
           
