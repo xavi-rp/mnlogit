@@ -3,9 +3,15 @@
 ## Contributed by: Florian Oswald, University College London             #
 ## Homepage: http://floswald.github.io					 #
 ##########################################################################
-predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
-                            returnData = FALSE, choiceVar=NULL, ...) 
+predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
+                            returnData = FALSE, choiceVar=NULL, 
+                            type = c("class_constr", "class", "probability"), path = NULL, 
+                            max_regr_crop_sc = NULL, min_regr_crop_sc = NULL, regressors = NULL,
+                            ...) 
 {
+  
+    print("using predict.mnlogit() from the branch 'mnlogit_xrp' (modified function!)")
+    type <- match.arg(type)
     size     <- object$model.size
     # get choice set for colnames
     choiceSet <- unique(index(object)$alt)
@@ -158,13 +164,73 @@ predict.mnlogit <- function(object, newdata=NULL, probability=TRUE,
 	      probMat <- as.matrix(probMat)
     colnames(probMat) <- choiceSet
 
-    if (probability) { #xavi:this gives probs
-         if (returnData) attr(probMat, "data") <- newdata
-	      return(probMat)
-    } else { #this gives the best choice
-	      choice <- apply(probMat, 1, function(x)
-			                  object$choices[which(x == max(x, na.rm = TRUE))])
-        if (returnData) attr(choice, "data") <- newdata
-	      return(choice)
-    }
-}
+        
+## xavi: here start changes in order to include (environmental) constrains of the choice (crops in our case) 
+    
+    switch(type, class_constr={
+      print("predicting using predict.mnlogit() including constraints (max-min of each choice at each variable)")  
+      
+      Y <- as.data.frame(probMat)
+      rgsrs <- regressors[!regressors %in% c(regressors[1], regressors[length(regressors)])]  # this is for our particular case. We need to remove first (column of choices) and last (categorical) elements 
+      n <- ncol(Y)
+      Y1 <- factor(levels = seq_along(choiceVar), labels = choiceVar)
+      
+      for(cs in 1:nrow(newdata)){ 
+        rnd <- 0
+        
+        repeat{ 
+          if(rnd == n){ Y1[cs] <- NA; break } # if checked all the choices and none is inside the range, give NA to the prediction
+          
+          if(any(is.na(Y[cs,]))){
+            Y1[cs] <- NA; break
+            
+          }else{
+            crp <- names(sort(Y[cs,])[n-rnd])
+            Y1[cs] <- crp
+          }
+          
+          cond_pred <- newdata[cs, rgsrs]
+          max_crop <- as.data.frame(max_regr_crop_sc[max_regr_crop_sc[,1]==crp, ])
+          min_crop <- as.data.frame(min_regr_crop_sc[min_regr_crop_sc[,1]==crp, ])
+          
+          max_crop <- max_crop[colnames(cond_pred)] >= cond_pred
+          min_crop <- cond_pred >= min_crop[colnames(cond_pred)]
+          
+          if(all(max_crop == TRUE) && all(min_crop == TRUE)){ break 
+          }else{ rnd <- rnd + 1; print("Prediction out of range. Selecting next best choice") }
+        }
+      } #en for cs
+      choice <- Y1
+      if (returnData) attr(choice, "data") <- newdata
+      return(choice)
+
+    }, class={ #this gives the best choice (no constrains)
+      print("predicting using predict.mnlogit() without including constraints")  
+      
+      choice <- apply(probMat, 1, function(x)
+        object$choices[which(x == max(x, na.rm = TRUE))])
+      if (returnData) attr(choice, "data") <- newdata
+      return(choice)
+      
+      
+    }, probability={ #xavi:this gives probs
+      stop("for the purpose of LUD Model, predictions of categories need to be done. Please chose type equal to 'class_constr' or 'class'")
+      if (returnData) attr(probMat, "data") <- newdata
+      return(probMat)
+    })
+    
+    # drop(Y)  #xavi: check what's that
+    
+    
+#    if (probability) { #xavi:this gives probs
+#         if (returnData) attr(probMat, "data") <- newdata
+#	      return(probMat)
+#    } else { #this gives the best choice
+#	      choice <- apply(probMat, 1, function(x)
+#			                  object$choices[which(x == max(x, na.rm = TRUE))])
+#        if (returnData) attr(choice, "data") <- newdata
+#	      return(choice)
+#    }
+    
+## xavi: here end changes
+} # end of predict.multinom()
