@@ -220,7 +220,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       return(probMat)
     })
     
-    # drop(Y)  #xavi: check what's that
+    drop(Y)  #xavi: check what's that
     
     
 #    if (probability) { #xavi:this gives probs
