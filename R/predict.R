@@ -196,6 +196,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
           
           print("max_crop")
           print(max_crop)
+          print("cond_pred")
+          print(cond_pred)
           max_crop <- max_crop[colnames(cond_pred)] >= cond_pred
           min_crop <- cond_pred >= min_crop[colnames(cond_pred)]
           
