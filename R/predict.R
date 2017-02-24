@@ -182,7 +182,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       n <- ncol(Y)
       print("n")
       print(n)
-      Y1 <- factor(levels = seq_along(unique(newdata[[choiceVar]])), labels = unique(newdata[[choiceVar]]))
+      Y1 <- factor(levels = seq_along(newdata[[choiceVar]]), labels = newdata[[choiceVar]])
       print("head(Y1")
       print(head(Y1))
 
@@ -209,8 +209,6 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
           if(all(max_crop == TRUE) && all(min_crop == TRUE)){ break 
           }else{ rnd <- rnd + 1; print("Prediction out of range. Selecting next best choice") }
         }
-        print("Y1")
-        print(Y1)
       } #en for cs
       
       choice <- Y1
