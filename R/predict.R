@@ -209,9 +209,14 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
           if(all(max_crop == TRUE) && all(min_crop == TRUE)){ break 
           }else{ rnd <- rnd + 1; print("Prediction out of range. Selecting next best choice") }
         }
+        print("Y1")
+        print(Y1)
       } #en for cs
+      
       choice <- Y1
       if (returnData) attr(choice, "data") <- newdata
+      print("choice")
+      print(head(choice))
       return(choice)
 
     }, class={ #this gives the best choice (no constrains)
