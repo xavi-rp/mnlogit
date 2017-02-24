@@ -181,6 +181,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       Y1 <- factor(levels = seq_along(newdata[[choiceVar]]), labels = newdata[[choiceVar]])
       print("head(Y1")
       print(head(Y1))
+      View(Y)
 
       for(cs in 1:nrow(newdata)){ 
         rnd <- 0
@@ -191,14 +192,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
             Y1[cs] <- NA; break
             
           }else{
-            print("str(Y)")
-            print(str(Y))
-            print("names(sort(Y[cs,]))")
-            print(names(sort(Y[cs,])))
             crp <- names(sort(Y[cs,])[n-rnd])
             Y1[cs] <- crp
-            print("Y1[cs]")
-            print(Y1[cs])
           }
           
           cond_pred <- as.data.frame(newdata[cs, rgsrs])
