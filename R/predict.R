@@ -190,14 +190,10 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
             Y1[cs] <- crp
           }
           
-          cond_pred <- newdata[cs, rgsrs]
+          cond_pred <- as.data.frame(newdata[cs, rgsrs])
           max_crop <- as.data.frame(max_regr_crop_sc[max_regr_crop_sc[,1]==crp, ])
           min_crop <- as.data.frame(min_regr_crop_sc[min_regr_crop_sc[,1]==crp, ])
           
-          print("max_crop")
-          print(max_crop)
-          print("cond_pred")
-          print(cond_pred)
           max_crop <- max_crop[colnames(cond_pred)] >= cond_pred
           min_crop <- cond_pred >= min_crop[colnames(cond_pred)]
           
