@@ -172,15 +172,23 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       print("predicting using predict.mnlogit() including constraints (max-min of each choice at each variable)")  
       
       Y <- as.data.frame(probMat)
+      print("head(Y")
+      print(head(Y))
+      print("names(Y)")
+      print(names(Y))
       rgsrs <- regressors[!regressors %in% c(regressors[1], regressors[length(regressors)])]  # this is for our particular case. We need to remove first (column of choices) and last (categorical) elements 
+      print("rgsrs")
+      print(rgsrs)
       n <- ncol(Y)
+      print("n")
+      print(n)
       Y1 <- factor(levels = seq_along(choiceVar), labels = choiceVar)
+      print("head(Y1")
+      print(head(Y1))
       
       for(cs in 1:nrow(newdata)){ 
         rnd <- 0
-        print("Y1[cs]")
-        print(Y1[cs])
-        
+
         repeat{ 
           if(rnd == n){ Y1[cs] <- NA; break } # if checked all the choices and none is inside the range, give NA to the prediction
           
