@@ -176,8 +176,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       print(head(Y))
       rgsrs <- regressors[!regressors %in% c(regressors[1], regressors[length(regressors)])]  # this is for our particular case. We need to remove first (column of choices) and last (categorical) elements 
       n <- ncol(Y)
-      print("n")
-      print(n)
+      print("nrow(newdata)")
+      print(nrow(newdata))
       Y1 <- factor(levels = seq_along(newdata[[choiceVar]]), labels = newdata[[choiceVar]])
       print("head(Y1")
       print(head(Y1))
@@ -197,6 +197,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
             print(names(sort(Y[cs,])))
             crp <- names(sort(Y[cs,])[n-rnd])
             Y1[cs] <- crp
+            print("Y1[cs]")
+            print(Y1[cs])
           }
           
           cond_pred <- as.data.frame(newdata[cs, rgsrs])
