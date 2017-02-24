@@ -172,16 +172,9 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       print("predicting using predict.mnlogit() including constraints (max-min of each choice at each variable)")  
       
       Y <- as.data.frame(probMat)
-      print("head(Y")
-      print(head(Y))
       rgsrs <- regressors[!regressors %in% c(regressors[1], regressors[length(regressors)])]  # this is for our particular case. We need to remove first (column of choices) and last (categorical) elements 
       n <- ncol(Y)
-      print("nrow(newdata)")
-      print(nrow(newdata))
       Y1 <- factor(levels = seq_along(newdata[[choiceVar]]), labels = newdata[[choiceVar]])
-      print("head(Y1")
-      print(head(Y1))
-      View(Y)
 
       for(cs in 1:nrow(newdata)){ 
         rnd <- 0
@@ -210,11 +203,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       
       choice <- Y1
       if (returnData) attr(choice, "data") <- newdata
-      print("choice")
-      print(head(choice))
-      print("is.na(choice)")
-      print(sum(is.na(choice)))
-      #return(choice)
+      return(choice)
 
     }, class={ #this gives the best choice (no constrains)
       print("predicting using predict.mnlogit() without including constraints")  
