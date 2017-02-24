@@ -185,12 +185,11 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       Y1 <- factor(levels = seq_along(unique(newdata[[choiceVar]])), labels = unique(newdata[[choiceVar]]))
       print("head(Y1")
       print(head(Y1))
-      print("choiceVar")
-      print(choiceVar)
-      
+
       for(cs in 1:nrow(newdata)){ 
         rnd <- 0
-
+        print("Y1[cs]")
+        print(Y1[cs])
         repeat{ 
           if(rnd == n){ Y1[cs] <- NA; break } # if checked all the choices and none is inside the range, give NA to the prediction
           
