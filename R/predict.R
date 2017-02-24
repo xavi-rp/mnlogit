@@ -182,7 +182,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       n <- ncol(Y)
       print("n")
       print(n)
-      Y1 <- factor(levels = seq_along(choiceVar), labels = choiceVar)
+      Y1 <- factor(levels = seq_along(unique(newdata[[choiceVar]])), labels = unique(newdata[[choiceVar]]))
       print("head(Y1")
       print(head(Y1))
       print("choiceVar")
