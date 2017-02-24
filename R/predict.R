@@ -192,7 +192,9 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
             
           }else{
             print("str(Y)")
-            print()
+            print(str(Y))
+            print("names(sort(Y[cs,]))")
+            print(names(sort(Y[cs,])))
             crp <- names(sort(Y[cs,])[n-rnd])
             Y1[cs] <- crp
           }
