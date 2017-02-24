@@ -174,11 +174,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       Y <- as.data.frame(probMat)
       print("head(Y")
       print(head(Y))
-      print("names(Y)")
-      print(names(Y))
       rgsrs <- regressors[!regressors %in% c(regressors[1], regressors[length(regressors)])]  # this is for our particular case. We need to remove first (column of choices) and last (categorical) elements 
-      print("rgsrs")
-      print(rgsrs)
       n <- ncol(Y)
       print("n")
       print(n)
@@ -195,6 +191,8 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
             Y1[cs] <- NA; break
             
           }else{
+            print("str(Y)")
+            print()
             crp <- names(sort(Y[cs,])[n-rnd])
             Y1[cs] <- crp
           }
@@ -215,7 +213,9 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       if (returnData) attr(choice, "data") <- newdata
       print("choice")
       print(head(choice))
-      return(choice)
+      print("is.na(choice)")
+      print(sum(is.na(choice)))
+      #return(choice)
 
     }, class={ #this gives the best choice (no constrains)
       print("predicting using predict.mnlogit() without including constraints")  
@@ -232,7 +232,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       return(probMat)
     })
     
-    drop(Y)  #xavi: check what's that
+    drop(choice)  #xavi: check what's that
     
     
 #    if (probability) { #xavi:this gives probs
