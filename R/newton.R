@@ -210,7 +210,10 @@ newtonRaphson <- function(response, X, Y, Z, K, maxiter, gtol, ftol,
     probMat     <- attr(fEval, "probMat")
     baseProbVec <- 1 - rowSums(probMat)
     probMat     <- cbind(baseProbVec, probMat)
-    
+    write.csv(probMat, file = "probMat.csv", row.names=TRUE)
+    print("probMat in newton.r")
+    print(probMat)
+
     # Pch - prob of choice that was actually made
     Pch <- matrix(c(as.vector(ifelse(responseMat > 0, probMat, NA))),
                    nrow = size$K, ncol = size$N, byrow=TRUE)
