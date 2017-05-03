@@ -166,7 +166,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
     colnames(probMat) <- choiceSet
 
         
-## xavi: here start changes in order to include (environmental) constrains of the choice (crops in our case) 
+## xavi: here start changes in order to include (environmental) constraints of the choice (crops in our case) 
     
     switch(type, class_constr={
       print("predicting using predict.mnlogit() including constraints (max-min of each choice at each variable)")  
