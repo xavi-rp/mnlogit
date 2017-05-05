@@ -208,8 +208,9 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
     }, class={ #this gives the best choice (no constrains)
       print("predicting using predict.mnlogit() without including constraints")  
       
-      choice <- apply(probMat, 1, function(x)
+      choice <- apply(probMat, 1, function(x){
         object$choices[which(x == max(x, na.rm = TRUE))])
+      }
       if (returnData) attr(choice, "data") <- newdata
       return(choice)
       
