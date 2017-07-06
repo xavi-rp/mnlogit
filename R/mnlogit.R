@@ -36,7 +36,7 @@ mnlogit <- function(formula, data, choiceVar=NULL, maxiter = 50, ftol = 1e-6,
              gtol = 1e-6, weights = NULL, ncores = 1, na.rm = TRUE, 
              print.level=0, linDepTol = 1e-6, start=NULL, alt.subset=NULL, ...)
 {
-    print("Using modified version of mnlogit (source code)...")
+    #print("Using modified version of mnlogit (source code)...")
     startTime <- proc.time()[3]
     initcall <- match.call()    # Store original function call
     # Basic parameter checking

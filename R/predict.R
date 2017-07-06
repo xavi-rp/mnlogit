@@ -10,7 +10,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
                             ...) 
 {
   
-    print("using predict.mnlogit() from the branch 'mnlogit_xrp' (modified function!)")
+    #print("using predict.mnlogit() from the branch 'mnlogit_xrp' (modified function!)")
     type <- match.arg(type)
     size     <- object$model.size
     # get choice set for colnames
@@ -56,7 +56,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
 	      if (nrow(newdata) %% size$K)   #xavi: if number of choices in newdata and in fitting data are different, stop it
 	                                     #xavi: avoid this point changing size$K with number of choices in newdata 
 	        #xavi: stop("Mismatch between nrows in newdata and number of choices.")
-	        print("Mismatch between nrows in newdata and number of choices. # xavi: however, go ahead!!")
+	        #print("Mismatch between nrows in newdata and number of choices. # xavi: however, go ahead!!")
     }
     K_newdata <- length(unique(newdata[[choiceVar]]))  # xavi: number of choices in newdata
     data <- newdata
@@ -169,7 +169,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
 ## xavi: here start changes in order to include (environmental) constraints of the choice (crops in our case) 
     
     switch(type, class_constr={
-      print("predicting using predict.mnlogit() including constraints (max-min of each choice at each variable)")  
+      #print("predicting using predict.mnlogit() including constraints (max-min of each choice at each variable)")  
       
       Y <- as.data.frame(probMat)
       rgsrs <- regressors[!regressors %in% c(regressors[1], regressors[length(regressors)])]  # this is for our particular case. We need to remove first (column of choices) and last (categorical) elements 
@@ -206,7 +206,7 @@ predict.mnlogit <- function(object, newdata=NULL, #probability=TRUE,
       return(choice)
 
     }, class={ #this gives the best choice (no constrains)
-      print("predicting using predict.mnlogit() without including constraints")  
+      #print("predicting using predict.mnlogit() without including constraints")  
       
       choice <- apply(probMat, 1, function(x) object$choices[which(x == max(x, na.rm = TRUE))])
       
